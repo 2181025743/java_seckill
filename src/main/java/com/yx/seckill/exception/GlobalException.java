@@ -1,4 +1,4 @@
-package com.yx.seckill;
+package com.yx.seckill.exception;
 
 import com.yx.seckill.vo.RespBeanEnum;
 import lombok.AllArgsConstructor;

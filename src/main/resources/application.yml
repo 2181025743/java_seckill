@@ -1,0 +1,70 @@
+# ===============================
+# 项目环境配置 application.yml
+# ===============================
+
+# ----------------------------------------
+# Thymeleaf 配置
+# ----------------------------------------
+spring:
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+
+  # ----------------------------------------
+  # 数据源 + MySQL8 驱动配置
+  # ----------------------------------------
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: aA1472580@
+
+    # HikariCP 连接池配置
+    hikari:
+      pool-name: DateHikariCP
+      minimum-idle: 5
+      idle-timeout: 30000
+      maximum-pool-size: 10
+      auto-commit: true
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  # ----------------------------------------
+  # Redis 配置
+  # ----------------------------------------
+  data:
+    redis:
+      host: 192.168.1.102      # Redis 服务地址
+      port: 6379                 # 默认端口
+      database: 0                # 使用默认的数据库: 0
+      timeout: 10000             # 连接超时（单位：ms）
+      lettuce:
+        pool:
+          max-active: 8          # 最大连接数
+          max-wait: 10000        # 最大等待时间
+          max-idle: 200          # 最大空闲连接
+          min-idle: 0            # 最小空闲连接
+
+# ----------------------------------------
+# MyBatis-Plus 配置
+# ----------------------------------------
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.yx.seckill.entity    # 修正包路径
+
+# ----------------------------------------
+# 日志级别相关配置
+# ----------------------------------------
+logging:
+  level:
+    com.yx.seckill: debug    # 修正包路径
+
+# ----------------------------------------
+# 服务器端口
+# ----------------------------------------
+server:
+  port: 8080

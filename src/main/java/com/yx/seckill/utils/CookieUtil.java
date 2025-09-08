@@ -1,8 +1,9 @@
-package com.example.seckilldemo.utils;
+package com.yx.seckill.utils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -211,7 +212,7 @@ public final class CookieUtil {
             int end = serverName.length();
             // 判断url地址是否包含"/"
             if (serverName.contains("/")) {
-                //得到第一个"/"出现的位置
+                // 得到第一个"/"出现的位置
                 end = serverName.indexOf("/");
             }
 
