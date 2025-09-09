@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yx.seckill.entity.User;
 import com.yx.seckill.exception.GlobalException;
 import com.yx.seckill.mapper.UserMapper;
-import com.yx.seckill.service.IUserService;
+import com.yx.seckill.service.UserService;
 import com.yx.seckill.utils.CookieUtil;
 import com.yx.seckill.utils.MD5Util;
 import com.yx.seckill.utils.UUIDUtil;
@@ -16,14 +16,17 @@ import com.yx.seckill.vo.RespBeanEnum;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
-        implements IUserService {
+        implements UserService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public RespBean doLogin(LoginVo loginVo,
@@ -62,16 +65,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
 
         }
-        // 登录校验通过后👇
-        String ticket = UUIDUtil.uuid();                     // 1. 生成随机 Ticket
+        // // 登录校验通过后👇
+        // String ticket = UUIDUtil.uuid();                     // 1. 生成随机 Ticket
+        //
+        // request.getSession().setAttribute(ticket, user);     // 2. 把 (ticket → user) 写进 Session
+        //
+        // CookieUtil.setCookie(request,                       // 3. 把 ticket 写到浏览器 Cookie
+        //         response,
+        //         "userTicket",                  //   Cookie 名
+        //         ticket);                       //   Cookie 值
+        // return RespBean.success();                           // 4. 返回成功
+        // // ---------------------
+        String ticket = UUIDUtil.uuid();
 
-        request.getSession().setAttribute(ticket, user);     // 2. 把 (ticket → user) 写进 Session
+        // ⚡ 存入 Redis（key:userTicket:xxx，value:User）
+        redisTemplate.opsForValue().set("user:" + ticket, user);
 
-        CookieUtil.setCookie(request,                       // 3. 把 ticket 写到浏览器 Cookie
-                response,
-                "userTicket",                  //   Cookie 名
-                ticket);                       //   Cookie 值
-        return RespBean.success();                           // 4. 返回成功
-        // ---------------------
+        // 同时把 ticket 写入 Cookie，方便客户端后续请求携带
+        CookieUtil.setCookie(request, response, "userTicket", ticket);
+
+        return RespBean.success();
+    }
+
+    public User getUserByCookie(String userTicket,
+                                HttpServletRequest request,
+                                HttpServletResponse response) {
+        if (StringUtils.isEmpty(userTicket)) {
+            return null;
+        }
+        User user = (User) redisTemplate.opsForValue().get("user:" + userTicket);
+
+        // 如果需要，可以再刷新Cookie延长有效期
+        if (user != null) {
+            CookieUtil.setCookie(request, response, "userTicket", userTicket);
+        }
+        return user;
     }
 }

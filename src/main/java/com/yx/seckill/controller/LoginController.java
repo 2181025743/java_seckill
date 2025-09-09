@@ -1,6 +1,6 @@
 package com.yx.seckill.controller;
 
-import com.yx.seckill.service.IUserService;
+import com.yx.seckill.service.UserService;
 import com.yx.seckill.vo.LoginVo;
 import com.yx.seckill.vo.RespBean;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     @RequestMapping("/toLogin")
     public String toLogin() {

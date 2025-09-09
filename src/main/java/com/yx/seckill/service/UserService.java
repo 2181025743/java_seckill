@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author 杨潇
  * @since 2025-09-06
  */
-public interface IUserService extends IService<User> {
+public interface UserService extends IService<User> {
 
     /**
      * 用户登录方法
@@ -26,4 +26,8 @@ public interface IUserService extends IService<User> {
      * @return 登录结果
      */
     RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
+
+    User getUserByCookie(String userTicket,
+                         HttpServletRequest request,
+                         HttpServletResponse response);
 }
