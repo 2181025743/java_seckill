@@ -1,154 +1,41 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>商品列表</title>
-
-    <!-- Bootstrap 5 CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome (for icons) CDN -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .navbar {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-        }
-
-        .product-card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden; /* 确保图片圆角生效 */
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .product-card img {
-            height: 250px;
-            object-fit: contain; /* 保持图片比例，完整显示 */
-            padding: 10px;
-        }
-
-        .price-tag .original-price {
-            text-decoration: line-through;
-            color: #6c757d;
-            font-size: 0.9rem;
-            margin-left: 10px;
-        }
-
-        .price-tag .seckill-price {
-            color: #dc3545;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .footer {
-            background-color: #343a40;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-    </style>
+    <!-- jquery -->
+    <script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
+    <!-- layer -->
+    <script th:src="@{/layer/layer.js}" type="text/javascript"></script>
+    <!-- common.js -->
+    <script th:src="@{/js/common.js}" type="text/javascript"></script>
 </head>
 <body>
-
-<!-- 导航栏 -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">
-            <i class="fas fa-bolt"></i> 高并发处理
-        </a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <!-- Thymeleaf 动态获取用户信息 -->
-                    <a class="nav-link active" href="#">
-                        <i class="fas fa-user-circle"></i> 你好, <span th:text="${user.nickname}"></span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login/toLogin">退出登录</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- 主内容区域 -->
-<main class="container my-5">
-    <div class="text-center mb-5">
-        <h1 class="display-4">Java测试项目</h1>
-        <p class="lead text-muted">前端页面</p>
-    </div>
-
-    <!-- 商品列表 -->
-    <div class="row gy-4">
-        <!-- 商品卡片 1 (示例) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card product-card h-100">
-                <img alt="iPhone 12" class="card-img-top" th:src="@{/img/iphone12.png}">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Apple iPhone 12 (128GB) - 蓝色</h5>
-                    <p class="card-text text-muted flex-grow-1">超瓷晶面板，A14仿生芯片，双摄系统，带来非凡体验。</p>
-                    <div class="price-tag mb-3">
-                        <span class="seckill-price">¥4999</span>
-                        <span class="original-price">¥5999</span>
-                    </div>
-                    <a class="btn btn-danger mt-auto" href="#">立即购买</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 商品卡片 2 (示例) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card product-card h-100">
-                <img alt="iPhone 12 Pro" class="card-img-top" th:src="@{/img/iphone12pro.png}">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Apple iPhone 12 Pro (256GB) - 石墨色</h5>
-                    <p class="card-text text-muted flex-grow-1">Pro级摄像头系统，LiDAR扫描仪，手术级不锈钢边框。</p>
-                    <div class="price-tag mb-3">
-                        <span class="seckill-price">¥6999</span>
-                        <span class="original-price">¥8499</span>
-                    </div>
-                    <a class="btn btn-danger mt-auto" href="#">立即购买</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 商品卡片 3 (示例 - 可复制扩展) -->
-        <div class="col-lg-4 col-md-6">
-            <div class="card product-card h-100">
-                <img alt="iPhone 12" class="card-img-top" th:src="@{/img/iphone12.png}">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Apple iPhone 12 (128GB) - 绿色</h5>
-                    <p class="card-text text-muted flex-grow-1">全新色彩，同样出色的性能和拍摄能力，不容错过。</p>
-                    <div class="price-tag mb-3">
-                        <span class="seckill-price">¥4999</span>
-                        <span class="original-price">¥5999</span>
-                    </div>
-                    <a class="btn btn-danger mt-auto" href="#">立即购买</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-
-<!-- 页脚 -->
-<footer class="footer mt-5">
-    <div class="container">
-        <p>&copy; 2024 Java项目商城. All Rights Reserved.</p>
-    </div>
-</footer>
-
-<!-- Bootstrap 5 JS Bundle CDN -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<div class="panel panel-default">
+    <div class="panel-heading">秒杀商品列表</div>
+    <table class="table" id="goodslist">
+        <tr>
+            <td>商品名称</td>
+            <td>商品图片</td>
+            <td>商品原价</td>
+            <td>秒杀价</td>
+            <td>库存数量</td>
+            <td>详情</td>
+        </tr>
+        <tr th:each="goods,goodsStat : ${goodsList}">
+            <td th:text="${goods.goodsName}"></td>
+            <td><img height="100" th:src="@{${goods.goodsImg}}" width="100"/></td>
+            <td th:text="${goods.goodsPrice}"></td>
+            <td th:text="${goods.seckillPrice}"></td>
+            <td th:text="${goods.stockCount}"></td>
+            <!-- 修改后 -->
+            <td><a th:href="@{/goods/toDetail/{id}(id=${goods.id})}">详情</a></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package com.yx.seckill.service;
 
-import com.yx.seckill.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yx.seckill.entity.Goods;
 
 /**
  * <p>
@@ -12,5 +12,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2025-09-09
  */
 public interface GoodsService extends IService<Goods> {
-
 }
