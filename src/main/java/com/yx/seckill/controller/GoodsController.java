@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -39,13 +41,45 @@ public class GoodsController {
     @RequestMapping("/toDetail/{id}")
     public String toDetail(Model model, User user,
                            @PathVariable("id") Long goodsId) {
-        // 1. 用户信息
         model.addAttribute("user", user);
 
-        // 2. 根据 ID 查询商品详情
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
         model.addAttribute("goods", goods);
 
-        return "goodsDetail";  // 跳转到详情页
+        // ==================== 关键修改点：增加空值检查 ====================
+        if (goods.getStartDate() == null || goods.getEndDate() == null) {
+            // 如果开始或结束时间为空，说明这不是一个有效的秒杀商品
+            // 直接设置秒杀状态为“已结束”，并返回页面
+            model.addAttribute("seckillStatus", 2);
+            model.addAttribute("remainSeconds", -1);
+            return "goodsDetail";
+        }
+        // ================================================================
+
+        LocalDateTime startDate = goods.getStartDate();
+        LocalDateTime endDate = goods.getEndDate();
+        LocalDateTime nowDate = LocalDateTime.now();
+
+        int seckillStatus = 0;
+        long remainSeconds = 0;
+
+        if (nowDate.isBefore(startDate)) {
+            // 秒杀未开始
+            seckillStatus = 0;
+            remainSeconds = Duration.between(nowDate, startDate).toSeconds();
+        } else if (nowDate.isAfter(endDate)) {
+            // 秒杀已结束
+            seckillStatus = 2;
+            remainSeconds = -1;
+        } else {
+            // 秒杀进行中
+            seckillStatus = 1;
+            remainSeconds = 0;
+        }
+
+        model.addAttribute("seckillStatus", seckillStatus);
+        model.addAttribute("remainSeconds", remainSeconds);
+
+        return "goodsDetail";
     }
 }
