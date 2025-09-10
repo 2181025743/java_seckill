@@ -10,14 +10,6 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-/**
- * <p>
- * 商品表
- * </p>
- *
- * @author yx
- * @since 2025-09-09
- */
 @Getter
 @Setter
 @TableName("t_goods")

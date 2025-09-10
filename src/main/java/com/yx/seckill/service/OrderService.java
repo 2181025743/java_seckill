@@ -1,7 +1,9 @@
 package com.yx.seckill.service;
 
-import com.yx.seckill.entity.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yx.seckill.entity.Order;
+import com.yx.seckill.entity.User;
+import com.yx.seckill.vo.GoodsVo;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OrderService extends IService<Order> {
 
+    Order seckill(User user, GoodsVo goods);
 }

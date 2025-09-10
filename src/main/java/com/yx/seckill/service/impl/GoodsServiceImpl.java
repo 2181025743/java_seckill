@@ -32,6 +32,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }// GoodsServiceImpl.java
 
     public GoodsVo findGoodsVoByGoodsId(Long goodsId) {
-        return goodsMapper.findGoodsVoByGoodsId(goodsId);
+        GoodsVo goodsVo = goodsMapper.findGoodsVoByGoodsId(goodsId);
+        // 添加调试日志
+        System.out.println("=== SQL查询结果 ===");
+        System.out.println("GoodsVo: " + goodsVo);
+        if (goodsVo != null) {
+            System.out.println("StartDate: " + goodsVo.getStartDate());
+            System.out.println("EndDate: " + goodsVo.getEndDate());
+            System.out.println("StartDate class: " +
+                    (goodsVo.getStartDate() != null ? goodsVo.getStartDate().getClass() : "null"));
+        }
+        return goodsVo;
     }
 }

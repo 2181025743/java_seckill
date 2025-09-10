@@ -80,7 +80,7 @@
                 countDown();
             }, 1000);
             // 秒杀进行中
-        } else if (remainSeconds == 0) {
+        } else if (remainSeconds === 0) {
             $("#buyButton").attr("disabled", false);
             if (timeout) {
                 clearTimeout(timeout);
