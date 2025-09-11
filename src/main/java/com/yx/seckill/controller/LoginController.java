@@ -30,7 +30,8 @@ public class LoginController {
     public RespBean doLogin(@Valid LoginVo loginVo,
                             HttpServletRequest request,
                             HttpServletResponse response) {
-        log.info("登录参数：{}", loginVo);
+        // 在调用service之前增加一条日志
+        log.info("LoginController接收到登录请求, 参数: {}", loginVo);
         return userService.doLogin(loginVo, request, response);
     }
 }

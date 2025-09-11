@@ -45,18 +45,6 @@ public class GoodsController {
 
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
         model.addAttribute("goods", goods);
-        // 添加调试日志
-        System.out.println("商品ID: " + goodsId);
-        System.out.println("秒杀开始时间: " + goods.getStartDate());
-        System.out.println("秒杀结束时间: " + goods.getEndDate());
-        System.out.println("当前时间: " + LocalDateTime.now());
-
-        if (goods.getStartDate() == null || goods.getEndDate() == null) {
-            System.out.println("警告：该商品没有秒杀信息！");
-            model.addAttribute("seckillStatus", 2);
-            model.addAttribute("remainSeconds", -1);
-            return "goodsDetail";
-        }
 
         LocalDateTime startDate = goods.getStartDate();
         LocalDateTime endDate = goods.getEndDate();

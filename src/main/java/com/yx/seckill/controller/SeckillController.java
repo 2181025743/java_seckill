@@ -48,7 +48,7 @@ public class SeckillController {
                         .eq("goods_id", goodsId));
         if (seckillOrder != null) {
             model.addAttribute("errorMsg", "每人限购一件，不能重复秒杀！");
-            return "seckillFail";
+            return "secKillFail";
         }
 
         // 5. 正式执行秒杀：减库存、生成订单和秒杀订单
