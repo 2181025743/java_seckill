@@ -48,7 +48,24 @@ spring:
           max-wait: 10000        # 最大等待时间
           max-idle: 200          # 最大空闲连接
           min-idle: 0            # 最小空闲连接
-
+  web:
+    resources:
+      # 静态资源位置
+      static-locations: classpath:/static/
+      # 添加静态资源处理
+      add-mappings: true
+      cache:
+        # 缓存周期，单位秒（1小时）
+        period: 3600
+      chain:
+        # 启用资源链
+        enabled: true
+        # 启用资源链缓存
+        cache: true
+        # 启用压缩资源（gzip）
+        compressed: true
+        # HTML5应用缓存
+        html-application-cache: true
 # ----------------------------------------
 # MyBatis-Plus 配置
 # ----------------------------------------

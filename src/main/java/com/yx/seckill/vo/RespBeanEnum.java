@@ -3,6 +3,10 @@ package com.yx.seckill.vo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 响应结果枚举类
+ * 包含各种响应状态码和消息
+ */
 @Getter
 @AllArgsConstructor
 public enum RespBeanEnum {
@@ -18,10 +22,11 @@ public enum RespBeanEnum {
 
     // 秒杀模块
     EMPTY_STOCK(500500, "库存不足"),
-    REPEATE_ERROR(500501, "重复秒杀"),
+    REPEAT_ERROR(500501, "重复秒杀"),
     REQUEST_ILLEGAL(500502, "非法请求"),
     ERROR_CAPTCHA(500503, "验证码错误"),
     ACCESS_LIMIT_REACHED(500504, "访问过于频繁"),
+    GOODS_NOT_EXIST(500100, "商品不存在"),
 
     // 订单模块
     ORDER_NOT_EXIST(500300, "订单不存在");
